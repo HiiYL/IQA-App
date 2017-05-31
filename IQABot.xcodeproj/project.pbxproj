@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		260B8BF11EDF0315007C1E67 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 260B8BF01EDF0315007C1E67 /* Podfile */; };
 		260C1E1D1EDEEE510048BBB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C1E1C1EDEEE510048BBB7 /* AppDelegate.swift */; };
 		260C1E1F1EDEEE510048BBB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C1E1E1EDEEE510048BBB7 /* ViewController.swift */; };
 		260C1E221EDEEE510048BBB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 260C1E201EDEEE510048BBB7 /* Main.storyboard */; };
@@ -14,6 +15,7 @@
 		260C1E271EDEEE510048BBB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 260C1E261EDEEE510048BBB7 /* Assets.xcassets */; };
 		260C1E2A1EDEEE510048BBB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 260C1E281EDEEE510048BBB7 /* LaunchScreen.storyboard */; };
 		260C1E351EDEEE510048BBB7 /* IQABotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C1E341EDEEE510048BBB7 /* IQABotTests.swift */; };
+		40A8E298E01BFFB9E0F5FBDF /* Pods_IQABot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166F4410AEFA2E9AE7F21917 /* Pods_IQABot.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		166F4410AEFA2E9AE7F21917 /* Pods_IQABot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IQABot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		260B8BF01EDF0315007C1E67 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		260C1E191EDEEE510048BBB7 /* IQABot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IQABot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		260C1E1C1EDEEE510048BBB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		260C1E1E1EDEEE510048BBB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +42,8 @@
 		260C1E301EDEEE510048BBB7 /* IQABotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IQABotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		260C1E341EDEEE510048BBB7 /* IQABotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQABotTests.swift; sourceTree = "<group>"; };
 		260C1E361EDEEE510048BBB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		620E139AAE5A5DC7E7DE49B2 /* Pods-IQABot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IQABot.release.xcconfig"; path = "Pods/Target Support Files/Pods-IQABot/Pods-IQABot.release.xcconfig"; sourceTree = "<group>"; };
+		A4D7DAD01829A0F3F7BDAC7E /* Pods-IQABot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IQABot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IQABot/Pods-IQABot.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A8E298E01BFFB9E0F5FBDF /* Pods_IQABot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,9 +68,12 @@
 		260C1E101EDEEE510048BBB7 = {
 			isa = PBXGroup;
 			children = (
+				260B8BF01EDF0315007C1E67 /* Podfile */,
 				260C1E1B1EDEEE510048BBB7 /* IQABot */,
 				260C1E331EDEEE510048BBB7 /* IQABotTests */,
 				260C1E1A1EDEEE510048BBB7 /* Products */,
+				7DA70F7641206D590586F641 /* Pods */,
+				8B788CC03F38DD45BAB00135 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +109,23 @@
 			path = IQABotTests;
 			sourceTree = "<group>";
 		};
+		7DA70F7641206D590586F641 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A4D7DAD01829A0F3F7BDAC7E /* Pods-IQABot.debug.xcconfig */,
+				620E139AAE5A5DC7E7DE49B2 /* Pods-IQABot.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8B788CC03F38DD45BAB00135 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				166F4410AEFA2E9AE7F21917 /* Pods_IQABot.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,9 +133,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 260C1E391EDEEE510048BBB7 /* Build configuration list for PBXNativeTarget "IQABot" */;
 			buildPhases = (
+				641C998AAEE944191E62DC84 /* [CP] Check Pods Manifest.lock */,
 				260C1E151EDEEE510048BBB7 /* Sources */,
 				260C1E161EDEEE510048BBB7 /* Frameworks */,
 				260C1E171EDEEE510048BBB7 /* Resources */,
+				A4B7CA0E160F9BEFFA0D50E4 /* [CP] Embed Pods Frameworks */,
+				022E07E2AB9506A2E59FC71F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,6 +216,7 @@
 			files = (
 				260C1E2A1EDEEE510048BBB7 /* LaunchScreen.storyboard in Resources */,
 				260C1E271EDEEE510048BBB7 /* Assets.xcassets in Resources */,
+				260B8BF11EDF0315007C1E67 /* Podfile in Resources */,
 				260C1E221EDEEE510048BBB7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +229,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		022E07E2AB9506A2E59FC71F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IQABot/Pods-IQABot-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		641C998AAEE944191E62DC84 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A4B7CA0E160F9BEFFA0D50E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IQABot/Pods-IQABot-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		260C1E151EDEEE510048BBB7 /* Sources */ = {
@@ -345,6 +424,7 @@
 		};
 		260C1E3A1EDEEE510048BBB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4D7DAD01829A0F3F7BDAC7E /* Pods-IQABot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MNUS8947JE;
@@ -358,6 +438,7 @@
 		};
 		260C1E3B1EDEEE510048BBB7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 620E139AAE5A5DC7E7DE49B2 /* Pods-IQABot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MNUS8947JE;
@@ -418,6 +499,7 @@
 				260C1E3B1EDEEE510048BBB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		260C1E3C1EDEEE510048BBB7 /* Build configuration list for PBXNativeTarget "IQABotTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +508,7 @@
 				260C1E3E1EDEEE510048BBB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
