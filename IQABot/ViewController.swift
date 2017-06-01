@@ -11,20 +11,19 @@ import AVFoundation
 import Alamofire
 
 extension UIImage {
-    
-    func scaleImage(toSize newSize: CGSize) -> UIImage? {
-        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-        if let context = UIGraphicsGetCurrentContext() {
-            context.interpolationQuality = .high
-            let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
-            context.concatenate(flipVertical)
-            context.draw(self.cgImage!, in: newRect)
-            let newImage = UIImage(cgImage: context.makeImage()!)
-            UIGraphicsEndImageContext()
-            return newImage
-        }
-        return nil
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    func resized(toWidth width: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
 class ViewController: UIViewController, UITextFieldDelegate {
@@ -39,6 +38,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var captureDevice : AVCaptureDevice?
 
     @IBOutlet weak var askTextField: UITextField!
+    @IBOutlet weak var answerLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         askTextField.delegate = self
@@ -63,6 +63,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //MARK: UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        answerLabel.text = ""
         saveToCamera()
         //imageData = saveToCamera()
         //let imageData = UIImagePNGRepresentation(image)!
@@ -99,51 +100,48 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
                 (imageDataSampleBuffer, error) -> Void in
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                if let unwrapped_img = imageData {
-//                    Alamofire.upload(unwrapped, to: "http://192.168.1.102:5000").responseJSON { response in
-//                        debugPrint(response)
-//                    }
-                    if let unwrapped_q = self.askTextField.text {
-                        self.askTextField.text = ""
-                        let parameters = [
-                            "question": unwrapped_q
-                        ]
-                        Alamofire.upload(
-                            multipartFormData: { multipartFormData in
-                                multipartFormData.append(
-                                    unwrapped_img, withName: "file",
-                                    fileName: "picture.png", mimeType: "image/png")
-                                for (key, value) in parameters {
-                                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-                                }
-                        },
-                            to: "http://192.168.1.102:5000",
-                            encodingCompletion: { encodingResult in
-                                switch encodingResult {
-                                case .success(let upload, _, _):
-                                    upload.responseJSON { response in
-                                        debugPrint(response)
+                let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(
+                    forJPEGSampleBuffer: imageDataSampleBuffer!, previewPhotoSampleBuffer: nil)
+                if let unwrapped_img = imageData, let unwrapped_q = self.askTextField.text {
+                    let img_resized = UIImageJPEGRepresentation((UIImage(data:unwrapped_img)?.resized(toWidth: 598))!, 1.0)
+                    self.askTextField.text = ""
+                    self.answerLabel.text = "❄️❄️❄️"
+                    let parameters = [
+                        "question": unwrapped_q
+                    ]
+                    Alamofire.upload(
+                        multipartFormData: { multipartFormData in
+                            multipartFormData.append(
+                                img_resized!, withName: "file",
+                                fileName: "picture.jpg", mimeType: "image/jpg")
+                            for (key, value) in parameters {
+                                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                            }
+                    },
+                        to: "https://65a68797.ngrok.io",
+                        encodingCompletion: { encodingResult in
+                            switch encodingResult {
+                            case .success(let upload, _, _):
+                                upload.responseJSON { response in
+                                    
+                                    if let JSON = response.result.value {
+                                        print("JSON: \(JSON)")
                                     }
-                                case .failure(let encodingError):
-                                    print(encodingError)
+                                    if let jsonDict = response.result.value as? [String:Any] {
+                                        if let answer = jsonDict["response"] as? String {
+                                            self.answerLabel.text = answer
+                                            print(answer)
+                                        }
+                                    }
+                                    debugPrint(response)
                                 }
-                        }
-                        )
+                            case .failure(let encodingError):
+                                print(encodingError)
+                            }
                     }
+                    )
                 }
             }
-        }
-    }
-    func configureDevice() {
-        if let device = captureDevice {
-            do {
-                try device.lockForConfiguration()
-            } catch _ {
-                //Error handling, if needed
-            }
-            device.focusMode = .locked
-            device.unlockForConfiguration()
         }
     }
 
