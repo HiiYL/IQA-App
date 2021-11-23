@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
-use_frameworks!
+platform :ios, '15.1'
 
 target 'IQABot' do
-pod 'Alamofire', '~> 4.4'
+use_frameworks!
+pod 'Alamofire', '~> 5.4'
 end

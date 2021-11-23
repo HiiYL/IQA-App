@@ -70,18 +70,16 @@ class ViewController: UIViewController, UITextFieldDelegate,SFSpeechRecognizerDe
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryRecord)
-            try audioSession.setMode(AVAudioSessionModeMeasurement)
-            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+            try audioSession.setCategory(AVAudioSession.Category.record)
+            try audioSession.setMode(AVAudioSession.Mode.measurement)
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
         
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         
-        guard let inputNode = audioEngine.inputNode else {
-            fatalError("Audio engine has no input node")
-        }
+        let inputNode = audioEngine.inputNode
         
         guard let recognitionRequest = recognitionRequest else {
             fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
@@ -131,14 +129,14 @@ class ViewController: UIViewController, UITextFieldDelegate,SFSpeechRecognizerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         askTextField.delegate = self
-        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        captureSession.sessionPreset = AVCaptureSession.Preset.high
         let devices = AVCaptureDevice.devices()
         // Loop through all the capture devices on this phone
-        for device in devices! {
+        for device in devices {
             // Make sure this particular device supports video
-            if ((device as AnyObject).hasMediaType(AVMediaTypeVideo)) {
+            if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
                 // Finally check the position and confirm we've got the back camera
-                if((device as AnyObject).position == AVCaptureDevicePosition.back) {
+                if((device as AnyObject).position == AVCaptureDevice.Position.back) {
                     captureDevice = device as? AVCaptureDevice
                 }
             }
@@ -169,7 +167,7 @@ class ViewController: UIViewController, UITextFieldDelegate,SFSpeechRecognizerDe
     func beginSession() {
         //configureDevice()
         do {
-            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
+            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
         } catch _ {
             //Error handling, if needed
         }
@@ -185,19 +183,19 @@ class ViewController: UIViewController, UITextFieldDelegate,SFSpeechRecognizerDe
     }
     
     func saveToCamera() {
-        if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+        if let videoConnection = stillImageOutput.connection(with: AVMediaType.video) {
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
                 (imageDataSampleBuffer, error) -> Void in
                 let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(
                     forJPEGSampleBuffer: imageDataSampleBuffer!, previewPhotoSampleBuffer: nil)
                 if let unwrapped_img = imageData, let unwrapped_q = self.askTextField.text {
-                    let img_resized = UIImageJPEGRepresentation((UIImage(data:unwrapped_img)?.resized(toWidth: 598))!, 1.0)
+                    let img_resized = (UIImage(data:unwrapped_img)?.resized(toWidth: 598))!.jpegData(compressionQuality: 1.0)
                     self.askTextField.text = ""
                     self.answerLabel.text = "❄️❄️❄️"
                     let parameters = [
                         "question": unwrapped_q
                     ]
-                    Alamofire.upload(
+                    AF.upload(
                         multipartFormData: { multipartFormData in
                             multipartFormData.append(
                                 img_resized!, withName: "file",
@@ -207,28 +205,7 @@ class ViewController: UIViewController, UITextFieldDelegate,SFSpeechRecognizerDe
                             }
                     },
                         //to: "https://65a68797.ngrok.io",
-                        to: "http://140.109.135.211:5000",
-                        encodingCompletion: { encodingResult in
-                            switch encodingResult {
-                            case .success(let upload, _, _):
-                                upload.responseJSON { response in
-                                    
-                                    if let JSON = response.result.value {
-                                        print("JSON: \(JSON)")
-                                    }
-                                    if let jsonDict = response.result.value as? [String:Any] {
-                                        if let answer = jsonDict["response"] as? String {
-                                            self.answerLabel.text = answer
-                                            print(answer)
-                                        }
-                                    }
-                                    debugPrint(response)
-                                }
-                            case .failure(let encodingError):
-                                print(encodingError)
-                                self.answerLabel.text = "error"
-                            }
-                    }
+                        to: "http://140.109.135.211:5000"
                     )
                 }
             }
